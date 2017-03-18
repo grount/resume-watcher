@@ -1,12 +1,18 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml;
+using System.Xml.Serialization;
+using resumeWatcher.Properties;
+using System.Diagnostics;
 
 namespace resumeWatcher
 {
@@ -15,6 +21,9 @@ namespace resumeWatcher
         public Form1()
         {
             InitializeComponent();
+
+            string[] row = new string[]{ "Intel", "Software Developer", "Link", "www.intel.com", "www.intel.com" };
+            mainDataGridView.Rows.Add(row);
         }
 
         private enum eErrorType
@@ -86,6 +95,35 @@ namespace resumeWatcher
                 }
             }
             companyComboBox.Text = newComboBoxText.ToString();
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
+            companyComboBox.Items.Clear();
+            foreach (object item in Properties.Settings.Default.myList)
+            {
+                companyComboBox.Items.Add(item);
+            }
+            companyComboBox.SelectedIndex = 0;
+        }
+
+        private void Form1_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Properties.Settings.Default.myList = new ArrayList();
+            foreach (object item in companyComboBox.Items)
+            {
+                Properties.Settings.Default.myList.Add(item);
+            }
+        
+            Properties.Settings.Default.Save();
+        }
+
+        private void mainDataGridView_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            string url = "";
+            url = mainDataGridView.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();
+            Process.Start("chrome.exe", url);
         }
     }
 }
