@@ -49,6 +49,7 @@
             this.URL = new System.Windows.Forms.DataGridViewLinkColumn();
             this.CV = new System.Windows.Forms.DataGridViewLinkColumn();
             this.Date = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.removeButton = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.mainDataGridView)).BeginInit();
             this.SuspendLayout();
@@ -110,7 +111,7 @@
             // 
             // addButton
             // 
-            this.addButton.Location = new System.Drawing.Point(844, 45);
+            this.addButton.Location = new System.Drawing.Point(617, 45);
             this.addButton.Name = "addButton";
             this.addButton.Size = new System.Drawing.Size(75, 23);
             this.addButton.TabIndex = 3;
@@ -151,6 +152,7 @@
             this.positionTextBox.Name = "positionTextBox";
             this.positionTextBox.Size = new System.Drawing.Size(121, 20);
             this.positionTextBox.TabIndex = 6;
+            this.positionTextBox.MouseClick += new System.Windows.Forms.MouseEventHandler(this.positionTextBox_MouseClick);
             // 
             // urlTextBox
             // 
@@ -224,11 +226,22 @@
             this.Date.ReadOnly = true;
             this.Date.Width = 150;
             // 
+            // removeButton
+            // 
+            this.removeButton.Location = new System.Drawing.Point(699, 45);
+            this.removeButton.Name = "removeButton";
+            this.removeButton.Size = new System.Drawing.Size(75, 23);
+            this.removeButton.TabIndex = 11;
+            this.removeButton.Text = "Remove";
+            this.removeButton.UseVisualStyleBackColor = true;
+            this.removeButton.Click += new System.EventHandler(this.removeButton_Click);
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(931, 515);
+            this.Controls.Add(this.removeButton);
             this.Controls.Add(this.CVButton);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.urlTextBox);
@@ -276,6 +289,7 @@
         private System.Windows.Forms.DataGridViewLinkColumn URL;
         private System.Windows.Forms.DataGridViewLinkColumn CV;
         private System.Windows.Forms.DataGridViewTextBoxColumn Date;
+        private System.Windows.Forms.Button removeButton;
     }
 }
 

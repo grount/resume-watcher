@@ -20,6 +20,8 @@ namespace resumeWatcher
     public partial class MainWindow : Form
     {
         string destFile = "";
+        Control _lastEnteredControl;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -123,7 +125,6 @@ namespace resumeWatcher
             {
                 companyComboBox.Items.Add(item);
             }
-            companyComboBox.SelectedIndex = 0;
 
             string targetPath = AppDomain.CurrentDomain.BaseDirectory;
             targetPath += "mygrid.bin";
@@ -190,7 +191,7 @@ namespace resumeWatcher
 
         private void mainDataGridView_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            string url = mainDataGridView.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();
+            string url = mainDataGridView.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString(); // TODO crashing when click on borders
 
             if (e.ColumnIndex == (int)eColumnIndex.urlIndex)
             {
@@ -198,7 +199,7 @@ namespace resumeWatcher
                 {
                     Process.Start("chrome.exe", url);
                 }
-                finally
+                catch(Exception ex)
                 {
                     try
                     {
@@ -257,6 +258,17 @@ namespace resumeWatcher
             //fileName = onlyFileName;
             fileName = thisDayString;
             //}
+        }
+
+        private void removeButton_Click(object sender, EventArgs e)
+        {
+            //if (_lastEnteredControl. == companyComboBox.C)
+            companyComboBox.Items.RemoveAt(companyComboBox.SelectedIndex); // TODO empty combobox crashes the app
+        }
+
+        private void positionTextBox_MouseClick(object sender, MouseEventArgs e)
+        {
+            _lastEnteredControl = (Control)sender;
         }
     }
 }
