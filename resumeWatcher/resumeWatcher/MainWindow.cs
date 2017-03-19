@@ -19,8 +19,10 @@ namespace resumeWatcher
 {
     public partial class MainWindow : Form
     {
+        string destFile = "";
         public MainWindow()
         {
+            
             InitializeComponent();
         }
 
@@ -45,7 +47,7 @@ namespace resumeWatcher
 
             DateTime timeToday = DateTime.Now;
             string timeTodayModified = String.Format("{0:dd/MM/yy}", timeToday);
-            string[] row = new string[] { companyComboBox.Text, positionTextBox.Text, urlTextBox.Text, "text?",  timeTodayModified };
+            string[] row = new string[] { companyComboBox.Text, positionTextBox.Text, urlTextBox.Text, destFile,  timeTodayModified };
             mainDataGridView.Rows.Add(row); // TODO: not inserting duplicates.
 
 
@@ -136,18 +138,17 @@ namespace resumeWatcher
             Properties.Settings.Default.Save();
         }
 
-        private void mainDataGridView_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e) // TODO any double click opens url
+        private void mainDataGridView_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             string url = mainDataGridView.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();
-            //string columnName = mainDataGridView.Name.
 
             if (e.ColumnIndex == (int)eColumnIndex.urlIndex)
             {
-                try // TODO modify this ugly layout.
+                try
                 {
                     Process.Start("chrome.exe", url);
                 }
-                catch (Exception ex)
+                finally
                 {
                     try
                     {
@@ -155,9 +156,14 @@ namespace resumeWatcher
                     }
                     catch (Exception ex2)
                     {
-                        throw new ArgumentException("Couldnt start firefox or chrome.\nException Message:{0}.\n", ex);
+                        throw new ArgumentException("Couldnt start firefox or chrome.\nException Message:{0}.\n", ex2);
                     }
                 }
+            }
+            else if (e.ColumnIndex == (int)eColumnIndex.cvIndex)
+            {
+                string filePath = mainDataGridView.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();
+                Process.Start("explorer.exe", filePath);
             }
         }
 
@@ -180,7 +186,7 @@ namespace resumeWatcher
 
                 // Use Path class to manipulate file and directory paths.
                 //string sourceFile = System.IO.Path.Combine(sourcePath, fileName);
-                string destFile = System.IO.Path.Combine(targetPath, fileName);
+                destFile = System.IO.Path.Combine(targetPath, fileName);
 
                 System.IO.File.Copy(sourcePath, destFile, false);
             }

@@ -47,7 +47,7 @@
             this.Company = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Position = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.URL = new System.Windows.Forms.DataGridViewLinkColumn();
-            this.CV = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.CV = new System.Windows.Forms.DataGridViewLinkColumn();
             this.Date = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.mainDataGridView)).BeginInit();
@@ -274,7 +274,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Company;
         private System.Windows.Forms.DataGridViewTextBoxColumn Position;
         private System.Windows.Forms.DataGridViewLinkColumn URL;
-        private System.Windows.Forms.DataGridViewButtonColumn CV;
+        private System.Windows.Forms.DataGridViewLinkColumn CV;
         private System.Windows.Forms.DataGridViewTextBoxColumn Date;
     }
 }
