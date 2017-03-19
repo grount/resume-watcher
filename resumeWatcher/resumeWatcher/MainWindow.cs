@@ -50,8 +50,6 @@ namespace resumeWatcher
             string timeTodayModified = String.Format("{0:dd/MM/yy}", timeToday);
             string[] row = new string[] { companyComboBox.Text, positionTextBox.Text, urlTextBox.Text, destFile,  timeTodayModified };
             mainDataGridView.Rows.Add(row); // TODO: not inserting duplicates.
-
-
         }
 
         private void AddComboBoxItems()
@@ -191,15 +189,23 @@ namespace resumeWatcher
 
         private void mainDataGridView_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            string url = mainDataGridView.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString(); // TODO crashing when click on borders
+            if (IsANonHeaderLinkCell(e) == true)
+            {
+                string url = mainDataGridView.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();
+                startProcesses(url, e);
+            }
 
+        }
+
+        private void startProcesses(string url, DataGridViewCellEventArgs e)
+        {
             if (e.ColumnIndex == (int)eColumnIndex.urlIndex)
             {
                 try
                 {
                     Process.Start("chrome.exe", url);
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     try
                     {
@@ -215,6 +221,20 @@ namespace resumeWatcher
             {
                 string filePath = mainDataGridView.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();
                 Process.Start("explorer.exe", filePath);
+            }
+        }
+
+        private bool IsANonHeaderLinkCell(DataGridViewCellEventArgs cellEvent)
+        {
+            if (mainDataGridView.Columns[cellEvent.ColumnIndex] is
+                DataGridViewLinkColumn &&
+                cellEvent.RowIndex != -1)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
 
