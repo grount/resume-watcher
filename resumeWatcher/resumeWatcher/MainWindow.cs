@@ -22,7 +22,6 @@ namespace resumeWatcher
         string destFile = "";
         public MainWindow()
         {
-            
             InitializeComponent();
         }
 
@@ -67,7 +66,7 @@ namespace resumeWatcher
                     companyComboBox.Text = "";  // If wrong input clear the input.
                     MessageBox.Show("Please enter a valid input", "Invalid Input", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
-                else
+                else // TODO : remove?
                 {
                     //MessageBox.Show("Already exists in the company list", "Duplicate Input", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
@@ -125,6 +124,31 @@ namespace resumeWatcher
                 companyComboBox.Items.Add(item);
             }
             companyComboBox.SelectedIndex = 0;
+
+            string targetPath = AppDomain.CurrentDomain.BaseDirectory;
+            targetPath += "mygrid.bin";
+            if (File.Exists(targetPath))
+            {
+                mainDataGridView.Rows.Clear();
+                using (BinaryReader bw = new BinaryReader(File.Open(targetPath, FileMode.Open)))
+                {
+                    int n = bw.ReadInt32();
+                    int m = bw.ReadInt32();
+                    for (int i = 0; i < m; ++i)
+                    {
+                        mainDataGridView.Rows.Add();
+                        for (int j = 0; j < n; ++j)
+                        {
+                            if (bw.ReadBoolean())
+                            {
+                                mainDataGridView.Rows[i].Cells[j].Value = bw.ReadString();
+                            }
+                            else bw.ReadBoolean();
+                        }
+                    }
+                }
+            }
+
         }
 
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)
@@ -136,6 +160,32 @@ namespace resumeWatcher
             }
         
             Properties.Settings.Default.Save();
+
+            string targetPath = AppDomain.CurrentDomain.BaseDirectory;
+            targetPath += "mygrid.bin";
+
+            using (BinaryWriter bw = new BinaryWriter(File.Open(targetPath, FileMode.Create)))
+            {
+                bw.Write(mainDataGridView.Columns.Count);
+                bw.Write(mainDataGridView.Rows.Count);
+                foreach (DataGridViewRow dgvR in mainDataGridView.Rows)
+                {
+                    for (int j = 0; j < mainDataGridView.Columns.Count; ++j)
+                    {
+                        object val = dgvR.Cells[j].Value;
+                        if (val == null)
+                        {
+                            bw.Write(false);
+                            bw.Write(false);
+                        }
+                        else
+                        {
+                            bw.Write(true);
+                            bw.Write(val.ToString());
+                        }
+                    }
+                }
+            }
         }
 
         private void mainDataGridView_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
