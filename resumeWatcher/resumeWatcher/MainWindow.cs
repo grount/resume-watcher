@@ -16,14 +16,16 @@ using System.Diagnostics;
 
 namespace resumeWatcher
 {
-    public partial class Form1 : Form
+    public partial class MainWindow : Form
     {
-        public Form1()
+        public MainWindow()
         {
             InitializeComponent();
 
             string[] row = new string[]{ "Intel", "Software Developer", "Link", "www.intel.com", "www.intel.com" };
             mainDataGridView.Rows.Add(row);
+
+            
         }
 
         private enum eErrorType
@@ -124,6 +126,34 @@ namespace resumeWatcher
             string url = "";
             url = mainDataGridView.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();
             Process.Start("chrome.exe", url);
+        }
+
+        private void CVButton_Click(object sender, EventArgs e)
+        {
+            if(openCVFileDialog.ShowDialog() == DialogResult.OK) // if you select file
+            {
+                var onlyFileName = "";
+                string fileName = openCVFileDialog.SafeFileName;
+                string targetPath = AppDomain.CurrentDomain.BaseDirectory;
+                string sourcePath = openCVFileDialog.FileName;
+                int addToPathIfExists = 1;
+
+                if (System.IO.File.Exists(fileName)) // TODO: if you close and open i = 1; error.
+                {
+                    onlyFileName = System.IO.Path.GetFileNameWithoutExtension(fileName);
+                    onlyFileName += "-" + addToPathIfExists++;
+                    string ext = Path.GetExtension(openCVFileDialog.FileName);
+                    onlyFileName += ext;
+
+                    fileName = onlyFileName;
+                }
+
+                // Use Path class to manipulate file and directory paths.
+                //string sourceFile = System.IO.Path.Combine(sourcePath, fileName);
+                string destFile = System.IO.Path.Combine(targetPath, fileName);
+
+                System.IO.File.Copy(sourcePath, destFile, false);
+            }
         }
     }
 }
