@@ -37,10 +37,6 @@
             this.companyComboBox = new System.Windows.Forms.ComboBox();
             this.addButton = new System.Windows.Forms.Button();
             this.mainDataGridView = new System.Windows.Forms.DataGridView();
-            this.Company = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Position = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.CV = new System.Windows.Forms.DataGridViewButtonColumn();
-            this.URL = new System.Windows.Forms.DataGridViewLinkColumn();
             this.positionLabel = new System.Windows.Forms.Label();
             this.positionTextBox = new System.Windows.Forms.TextBox();
             this.urlTextBox = new System.Windows.Forms.TextBox();
@@ -48,6 +44,11 @@
             this.label2 = new System.Windows.Forms.Label();
             this.CVButton = new System.Windows.Forms.Button();
             this.openCVFileDialog = new System.Windows.Forms.OpenFileDialog();
+            this.Company = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Position = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.URL = new System.Windows.Forms.DataGridViewLinkColumn();
+            this.CV = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.Date = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.mainDataGridView)).BeginInit();
             this.SuspendLayout();
@@ -125,43 +126,15 @@
             this.mainDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Company,
             this.Position,
+            this.URL,
             this.CV,
-            this.URL});
+            this.Date});
             this.mainDataGridView.Location = new System.Drawing.Point(12, 110);
             this.mainDataGridView.Name = "mainDataGridView";
             this.mainDataGridView.ReadOnly = true;
             this.mainDataGridView.Size = new System.Drawing.Size(906, 393);
             this.mainDataGridView.TabIndex = 4;
             this.mainDataGridView.CellContentDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.mainDataGridView_CellContentDoubleClick);
-            // 
-            // Company
-            // 
-            this.Company.HeaderText = "Company";
-            this.Company.Name = "Company";
-            this.Company.ReadOnly = true;
-            // 
-            // Position
-            // 
-            this.Position.HeaderText = "Position";
-            this.Position.Name = "Position";
-            this.Position.ReadOnly = true;
-            this.Position.Width = 130;
-            // 
-            // CV
-            // 
-            this.CV.HeaderText = "CV";
-            this.CV.Name = "CV";
-            this.CV.ReadOnly = true;
-            this.CV.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.CV.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            // 
-            // URL
-            // 
-            this.URL.HeaderText = "URL";
-            this.URL.Name = "URL";
-            this.URL.ReadOnly = true;
-            this.URL.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.URL.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             // 
             // positionLabel
             // 
@@ -214,6 +187,43 @@
             this.CVButton.UseVisualStyleBackColor = true;
             this.CVButton.Click += new System.EventHandler(this.CVButton_Click);
             // 
+            // Company
+            // 
+            this.Company.HeaderText = "Company";
+            this.Company.Name = "Company";
+            this.Company.ReadOnly = true;
+            // 
+            // Position
+            // 
+            this.Position.HeaderText = "Position";
+            this.Position.Name = "Position";
+            this.Position.ReadOnly = true;
+            this.Position.Width = 130;
+            // 
+            // URL
+            // 
+            this.URL.HeaderText = "URL";
+            this.URL.Name = "URL";
+            this.URL.ReadOnly = true;
+            this.URL.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.URL.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.URL.Width = 200;
+            // 
+            // CV
+            // 
+            this.CV.HeaderText = "CV";
+            this.CV.Name = "CV";
+            this.CV.ReadOnly = true;
+            this.CV.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.CV.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            // 
+            // Date
+            // 
+            this.Date.HeaderText = "Date";
+            this.Date.Name = "Date";
+            this.Date.ReadOnly = true;
+            this.Date.Width = 150;
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -259,12 +269,13 @@
         private System.Windows.Forms.TextBox urlTextBox;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Company;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Position;
-        private System.Windows.Forms.DataGridViewButtonColumn CV;
-        private System.Windows.Forms.DataGridViewLinkColumn URL;
         private System.Windows.Forms.Button CVButton;
         private System.Windows.Forms.OpenFileDialog openCVFileDialog;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Company;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Position;
+        private System.Windows.Forms.DataGridViewLinkColumn URL;
+        private System.Windows.Forms.DataGridViewButtonColumn CV;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Date;
     }
 }
 

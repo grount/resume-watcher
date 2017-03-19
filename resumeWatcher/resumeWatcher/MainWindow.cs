@@ -14,6 +14,7 @@ using System.Xml.Serialization;
 using resumeWatcher.Properties;
 using System.Diagnostics;
 
+
 namespace resumeWatcher
 {
     public partial class MainWindow : Form
@@ -21,11 +22,6 @@ namespace resumeWatcher
         public MainWindow()
         {
             InitializeComponent();
-
-            string[] row = new string[]{ "Intel", "Software Developer", "Link", "www.intel.com", "www.intel.com" };
-            mainDataGridView.Rows.Add(row);
-
-            
         }
 
         private enum eErrorType
@@ -35,7 +31,27 @@ namespace resumeWatcher
             AlreadyExists
         }
 
+        private enum eColumnIndex
+        {
+            companyIndex,
+            positionIndex,
+            urlIndex,
+            cvIndex
+        }
+
         private void addButton_Click(object sender, EventArgs e)
+        {
+            AddComboBoxItems();
+
+            DateTime timeToday = DateTime.Now;
+            string timeTodayModified = String.Format("{0:dd/MM/yy}", timeToday);
+            string[] row = new string[] { companyComboBox.Text, positionTextBox.Text, urlTextBox.Text, "text?",  timeTodayModified };
+            mainDataGridView.Rows.Add(row); // TODO: not inserting duplicates.
+
+
+        }
+
+        private void AddComboBoxItems()
         {
             eErrorType returnedEErrorType = ValidateCompanyComboBoxText();
             if (returnedEErrorType == eErrorType.Valid)
@@ -44,15 +60,14 @@ namespace resumeWatcher
             }
             else
             {
-                companyComboBox.Text = "";  // If wrong input clear the input.
-
                 if (returnedEErrorType == eErrorType.InvalidInput)
                 {
+                    companyComboBox.Text = "";  // If wrong input clear the input.
                     MessageBox.Show("Please enter a valid input", "Invalid Input", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 else
                 {
-                    MessageBox.Show("Already exists in the company list", "Duplicate Input", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    //MessageBox.Show("Already exists in the company list", "Duplicate Input", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
         }
@@ -121,32 +136,47 @@ namespace resumeWatcher
             Properties.Settings.Default.Save();
         }
 
-        private void mainDataGridView_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
+        private void mainDataGridView_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e) // TODO any double click opens url
         {
-            string url = "";
-            url = mainDataGridView.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();
-            Process.Start("chrome.exe", url);
+            string url = mainDataGridView.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();
+            //string columnName = mainDataGridView.Name.
+
+            if (e.ColumnIndex == (int)eColumnIndex.urlIndex)
+            {
+                try // TODO modify this ugly layout.
+                {
+                    Process.Start("chrome.exe", url);
+                }
+                catch (Exception ex)
+                {
+                    try
+                    {
+                        Process.Start("firefox.exe", url);
+                    }
+                    catch (Exception ex2)
+                    {
+                        throw new ArgumentException("Couldnt start firefox or chrome.\nException Message:{0}.\n", ex);
+                    }
+                }
+            }
         }
 
         private void CVButton_Click(object sender, EventArgs e)
         {
-            if(openCVFileDialog.ShowDialog() == DialogResult.OK) // if you select file
+            copyFileToDirectory();
+        }
+
+        private void copyFileToDirectory()
+        {
+            if (openCVFileDialog.ShowDialog() == DialogResult.OK) // if you select file
             {
-                var onlyFileName = "";
+                string onlyFileName = ""; // TODO check whats not needed here.
                 string fileName = openCVFileDialog.SafeFileName;
                 string targetPath = AppDomain.CurrentDomain.BaseDirectory;
                 string sourcePath = openCVFileDialog.FileName;
-                int addToPathIfExists = 1;
+                string extenstion = "";
 
-                if (System.IO.File.Exists(fileName)) // TODO: if you close and open i = 1; error.
-                {
-                    onlyFileName = System.IO.Path.GetFileNameWithoutExtension(fileName);
-                    onlyFileName += "-" + addToPathIfExists++;
-                    string ext = Path.GetExtension(openCVFileDialog.FileName);
-                    onlyFileName += ext;
-
-                    fileName = onlyFileName;
-                }
+                ModifyFileName(onlyFileName, extenstion, ref fileName);
 
                 // Use Path class to manipulate file and directory paths.
                 //string sourceFile = System.IO.Path.Combine(sourcePath, fileName);
@@ -154,6 +184,23 @@ namespace resumeWatcher
 
                 System.IO.File.Copy(sourcePath, destFile, false);
             }
+        }
+
+        private void ModifyFileName(string onlyFileName, string extenstion, ref string fileName)
+        {
+           // if (System.IO.File.Exists(fileName)) 
+           // {
+            DateTime thisDay = DateTime.Now;
+            string thisDayString = String.Format("{0:dd-MM-HH_HH-mm-ss}", thisDay);
+                
+           //onlyFileName = System.IO.Path.GetFileNameWithoutExtension(fileName);
+           // onlyFileName += "-" + thisDayString;
+                extenstion = Path.GetExtension(openCVFileDialog.FileName);
+            // onlyFileName += extenstion;
+            thisDayString += extenstion;
+            //fileName = onlyFileName;
+            fileName = thisDayString;
+            //}
         }
     }
 }
