@@ -20,7 +20,6 @@ namespace resumeWatcher
     public partial class MainWindow : Form
     {
         string destFile = "";
-        Control _lastEnteredControl;
 
         public MainWindow()
         {
@@ -49,7 +48,7 @@ namespace resumeWatcher
             DateTime timeToday = DateTime.Now;
             string timeTodayModified = String.Format("{0:dd/MM/yy}", timeToday);
             string[] row = new string[] { companyComboBox.Text, positionTextBox.Text, urlTextBox.Text, destFile,  timeTodayModified };
-            mainDataGridView.Rows.Add(row); // TODO: not inserting duplicates.
+            mainDataGridView.Rows.Add(row); 
         }
 
         private void AddComboBoxItems()
@@ -65,10 +64,6 @@ namespace resumeWatcher
                 {
                     companyComboBox.Text = "";  // If wrong input clear the input.
                     MessageBox.Show("Please enter a valid input", "Invalid Input", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-                else // TODO : remove?
-                {
-                    //MessageBox.Show("Already exists in the company list", "Duplicate Input", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
         }
@@ -247,7 +242,7 @@ namespace resumeWatcher
         {
             if (openCVFileDialog.ShowDialog() == DialogResult.OK) // if you select file
             {
-                string onlyFileName = ""; // TODO check whats not needed here.
+                string onlyFileName = "";
                 string fileName = openCVFileDialog.SafeFileName;
                 string targetPath = AppDomain.CurrentDomain.BaseDirectory;
                 string sourcePath = openCVFileDialog.FileName;
@@ -282,13 +277,27 @@ namespace resumeWatcher
 
         private void removeButton_Click(object sender, EventArgs e)
         {
-            //if (_lastEnteredControl. == companyComboBox.C)
-            companyComboBox.Items.RemoveAt(companyComboBox.SelectedIndex); // TODO empty combobox crashes the app
+            foreach (DataGridViewCell oneCell in mainDataGridView.SelectedCells)
+            {
+                if (oneCell.Selected)
+                {
+                    string cvPath = mainDataGridView.Rows[oneCell.RowIndex].Cells[3].Value.ToString();
+                    File.Delete(cvPath);
+                    mainDataGridView.Rows.RemoveAt(oneCell.RowIndex);
+                }
+            }
         }
 
-        private void positionTextBox_MouseClick(object sender, MouseEventArgs e)
+        private void companiesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            _lastEnteredControl = (Control)sender;
+            ModifyCompanies childForm = new ModifyCompanies(this);
+            childForm.ShowDialog();
+        }
+
+        private void creditToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            creditForm childForm = new creditForm();
+            childForm.ShowDialog();
         }
     }
 }

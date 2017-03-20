@@ -30,13 +30,18 @@
         {
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.addToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.applicationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.companiesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.creditToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.companyLabel = new System.Windows.Forms.Label();
             this.companyComboBox = new System.Windows.Forms.ComboBox();
             this.addButton = new System.Windows.Forms.Button();
             this.mainDataGridView = new System.Windows.Forms.DataGridView();
+            this.Company = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Position = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.URL = new System.Windows.Forms.DataGridViewLinkColumn();
+            this.CV = new System.Windows.Forms.DataGridViewLinkColumn();
+            this.Date = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.positionLabel = new System.Windows.Forms.Label();
             this.positionTextBox = new System.Windows.Forms.TextBox();
             this.urlTextBox = new System.Windows.Forms.TextBox();
@@ -44,11 +49,6 @@
             this.label2 = new System.Windows.Forms.Label();
             this.CVButton = new System.Windows.Forms.Button();
             this.openCVFileDialog = new System.Windows.Forms.OpenFileDialog();
-            this.Company = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Position = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.URL = new System.Windows.Forms.DataGridViewLinkColumn();
-            this.CV = new System.Windows.Forms.DataGridViewLinkColumn();
-            this.Date = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.removeButton = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.mainDataGridView)).BeginInit();
@@ -69,22 +69,24 @@
             // addToolStripMenuItem
             // 
             this.addToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.applicationToolStripMenuItem});
+            this.companiesToolStripMenuItem});
             this.addToolStripMenuItem.Name = "addToolStripMenuItem";
-            this.addToolStripMenuItem.Size = new System.Drawing.Size(41, 20);
-            this.addToolStripMenuItem.Text = "Add";
+            this.addToolStripMenuItem.Size = new System.Drawing.Size(57, 20);
+            this.addToolStripMenuItem.Text = "Modify";
             // 
-            // applicationToolStripMenuItem
+            // companiesToolStripMenuItem
             // 
-            this.applicationToolStripMenuItem.Name = "applicationToolStripMenuItem";
-            this.applicationToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
-            this.applicationToolStripMenuItem.Text = "Application";
+            this.companiesToolStripMenuItem.Name = "companiesToolStripMenuItem";
+            this.companiesToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.companiesToolStripMenuItem.Text = "Companies";
+            this.companiesToolStripMenuItem.Click += new System.EventHandler(this.companiesToolStripMenuItem_Click);
             // 
             // creditToolStripMenuItem
             // 
             this.creditToolStripMenuItem.Name = "creditToolStripMenuItem";
             this.creditToolStripMenuItem.Size = new System.Drawing.Size(51, 20);
             this.creditToolStripMenuItem.Text = "Credit";
+            this.creditToolStripMenuItem.Click += new System.EventHandler(this.creditToolStripMenuItem_Click);
             // 
             // helpToolStripMenuItem
             // 
@@ -137,58 +139,6 @@
             this.mainDataGridView.TabIndex = 4;
             this.mainDataGridView.CellContentDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.mainDataGridView_CellContentDoubleClick);
             // 
-            // positionLabel
-            // 
-            this.positionLabel.AutoSize = true;
-            this.positionLabel.Location = new System.Drawing.Point(145, 28);
-            this.positionLabel.Name = "positionLabel";
-            this.positionLabel.Size = new System.Drawing.Size(44, 13);
-            this.positionLabel.TabIndex = 5;
-            this.positionLabel.Text = "Position";
-            // 
-            // positionTextBox
-            // 
-            this.positionTextBox.Location = new System.Drawing.Point(148, 45);
-            this.positionTextBox.Name = "positionTextBox";
-            this.positionTextBox.Size = new System.Drawing.Size(121, 20);
-            this.positionTextBox.TabIndex = 6;
-            this.positionTextBox.MouseClick += new System.Windows.Forms.MouseEventHandler(this.positionTextBox_MouseClick);
-            // 
-            // urlTextBox
-            // 
-            this.urlTextBox.Location = new System.Drawing.Point(275, 45);
-            this.urlTextBox.Name = "urlTextBox";
-            this.urlTextBox.Size = new System.Drawing.Size(121, 20);
-            this.urlTextBox.TabIndex = 8;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(272, 28);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(29, 13);
-            this.label1.TabIndex = 7;
-            this.label1.Text = "URL";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(399, 28);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(21, 13);
-            this.label2.TabIndex = 9;
-            this.label2.Text = "CV";
-            // 
-            // CVButton
-            // 
-            this.CVButton.Location = new System.Drawing.Point(402, 44);
-            this.CVButton.Name = "CVButton";
-            this.CVButton.Size = new System.Drawing.Size(121, 20);
-            this.CVButton.TabIndex = 10;
-            this.CVButton.Text = "Browse Files";
-            this.CVButton.UseVisualStyleBackColor = true;
-            this.CVButton.Click += new System.EventHandler(this.CVButton_Click);
-            // 
             // Company
             // 
             this.Company.HeaderText = "Company";
@@ -226,6 +176,57 @@
             this.Date.ReadOnly = true;
             this.Date.Width = 150;
             // 
+            // positionLabel
+            // 
+            this.positionLabel.AutoSize = true;
+            this.positionLabel.Location = new System.Drawing.Point(145, 28);
+            this.positionLabel.Name = "positionLabel";
+            this.positionLabel.Size = new System.Drawing.Size(44, 13);
+            this.positionLabel.TabIndex = 5;
+            this.positionLabel.Text = "Position";
+            // 
+            // positionTextBox
+            // 
+            this.positionTextBox.Location = new System.Drawing.Point(148, 45);
+            this.positionTextBox.Name = "positionTextBox";
+            this.positionTextBox.Size = new System.Drawing.Size(121, 20);
+            this.positionTextBox.TabIndex = 6;
+            // 
+            // urlTextBox
+            // 
+            this.urlTextBox.Location = new System.Drawing.Point(275, 45);
+            this.urlTextBox.Name = "urlTextBox";
+            this.urlTextBox.Size = new System.Drawing.Size(121, 20);
+            this.urlTextBox.TabIndex = 8;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(272, 28);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(29, 13);
+            this.label1.TabIndex = 7;
+            this.label1.Text = "URL";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(399, 28);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(21, 13);
+            this.label2.TabIndex = 9;
+            this.label2.Text = "CV";
+            // 
+            // CVButton
+            // 
+            this.CVButton.Location = new System.Drawing.Point(402, 44);
+            this.CVButton.Name = "CVButton";
+            this.CVButton.Size = new System.Drawing.Size(121, 20);
+            this.CVButton.TabIndex = 10;
+            this.CVButton.Text = "Browse Files";
+            this.CVButton.UseVisualStyleBackColor = true;
+            this.CVButton.Click += new System.EventHandler(this.CVButton_Click);
+            // 
             // removeButton
             // 
             this.removeButton.Location = new System.Drawing.Point(699, 45);
@@ -253,8 +254,10 @@
             this.Controls.Add(this.companyComboBox);
             this.Controls.Add(this.companyLabel);
             this.Controls.Add(this.menuStrip1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "MainWindow";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Resume Watcher";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form1_FormClosed);
             this.Load += new System.EventHandler(this.Form1_Load);
@@ -271,11 +274,10 @@
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
         private System.Windows.Forms.Label companyLabel;
-        private System.Windows.Forms.ComboBox companyComboBox;
         private System.Windows.Forms.Button addButton;
         private System.Windows.Forms.DataGridView mainDataGridView;
         private System.Windows.Forms.ToolStripMenuItem addToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem applicationToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem companiesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem creditToolStripMenuItem;
         private System.Windows.Forms.Label positionLabel;
         private System.Windows.Forms.TextBox positionTextBox;
@@ -290,6 +292,7 @@
         private System.Windows.Forms.DataGridViewLinkColumn CV;
         private System.Windows.Forms.DataGridViewTextBoxColumn Date;
         private System.Windows.Forms.Button removeButton;
+        public System.Windows.Forms.ComboBox companyComboBox;
     }
 }
 
