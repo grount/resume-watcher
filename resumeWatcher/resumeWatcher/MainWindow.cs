@@ -198,13 +198,13 @@ namespace resumeWatcher
             {
                 try
                 {
-                    Process.Start("chrome.exe", url);
+                    Process.Start("cchrome.exe", url);
                 }
-                catch (Exception ex)
+                catch (System.ComponentModel.Win32Exception) // TODO is it okay?
                 {
                     try
                     {
-                        Process.Start("firefox.exe", url);
+                        Process.Start("chrome.exe", url);
                     }
                     catch (Exception ex2)
                     {
